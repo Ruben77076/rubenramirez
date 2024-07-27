@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-y : auto; 
+
+}
+
+header {
+    background-color: #154c79;
+    color: white;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 5px;
+    text-align: center;
+}
+
+main img {
+    width: 50%;
+}
+main p {
+    font-weight: bold;
+    font-size: large;
+    color: #30302e;
+}
+
+footer {
+    background-color: #1e81b0;
+    color: white;
+    text-align: center;
+    padding: 1px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#downloadResumeBtn {
+    background-color: beige;
+    border-radius: 5px;
+    padding: 10px 50px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #11d7e7
+    ;
+}
+
+form {
+    display: inline-block;
+    text-align: left;
+}
+
+form label, form input, form textarea, form button {
+    display: block;
+    margin: 1px 0;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#formMessage {
+    color: green;
+    font-weight: bold;
+}

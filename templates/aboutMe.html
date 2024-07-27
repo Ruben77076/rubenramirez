@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/portfolio.js') }}" type="module"  defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About Me</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact Me</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>About Me</h1>
+        <p>I'm Ruben. Navy Veteran and Father.</p>
+        <p>I have a passion for fixing problems: life, electro-mechanical, electric, computers, software, math.</p>
+        <p>That passion as a kid led to grand creations with LEGOs which would lead to High School Regional Robotics Competitions in Texas.</p>
+        <p>I had the pleasure of learning electronics, electrical theory and electronic maintenance by way of U.S. Naval Training and Education.</p>   
+        <p>Traveled the world again as a civilian, overseeing project installations domestically and internationally as the Lead Technician of over 20 projects & locations for fruit and vegetable sorting machines.</p>
+        <a href="{{ url_for('static', filename='RubenRamirez-SoftwareEngineer.pdf') }}" download="RubenRamirez.pdf">
+            <button id="downloadResumeBtn">Download my Resume</button>
+        </a>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 RJ Business Enterprise,LLC</p>
+    </footer>
+</body>
+</html>
