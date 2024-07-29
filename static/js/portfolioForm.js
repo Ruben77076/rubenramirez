@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const formMessage = document.getElementById("formMessage");
 
     form.addEventListener("submit", function(evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
 
         let name = document.getElementById("name").value;
         let email = document.getElementById("email").value;

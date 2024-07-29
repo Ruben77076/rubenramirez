@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    overflow-y : auto; 
+    height: fit-content;
+    /* overflow-y : auto;  */
 
 }
 
@@ -47,9 +48,10 @@ footer {
     background-color: #1e81b0;
     color: white;
     text-align: center;
-    padding: 1px 0;
+    padding: 0px 0;
     position: fixed;
     width: 100%;
+    height: 20px;
     bottom: 0;
 }
 
