@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
-import pymysql
 
 load_dotenv()
 
@@ -13,7 +12,7 @@ dbHost = "dbportfolio.cvoieyqw6d46.us-east-2.rds.amazonaws.com"
 dbPort = "3306"
 dbName = "db_portfolio"
 
-engine = create_engine(f"mysql+pymysql://{dbUser}:{dbPass}@{dbHost}:{dbPort}/{dbName}?charset=utf8mb4")
+engine = create_engine(f"mysql+pymysql://{dbUser}:{dbPass}@{dbHost}:{dbPort}/{dbName}?charset=utf8mb4",pool_size=10, max_overflow=20)
 
 try:
     connection = engine.connect()
