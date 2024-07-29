@@ -2,12 +2,25 @@
 
 console.log("JavaScript is working!");
 
-document.addEventListener("DOMContentLoaded", function() {
+window.addEventListener('load', function () {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+//document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("contactForm");
     const formMessage = document.getElementById("formMessage");
 
     form.addEventListener("submit", function(evt) {
-        //evt.preventDefault();
+        evt.preventDefault();
 
         let name = document.getElementById("name").value;
         let email = document.getElementById("email").value;
@@ -38,5 +51,5 @@ document.addEventListener("DOMContentLoaded", function() {
         formMessage.textContent = "Success! Your message has been sent.";
         formMessage.style.color = "green";
     })
-});
+//});
 console.log("End of JS");

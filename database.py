@@ -11,8 +11,19 @@ dbPass = os.getenv("DB_PASS")
 dbHost = "dbportfolio.cvoieyqw6d46.us-east-2.rds.amazonaws.com"
 dbPort = "3306"
 dbName = "db_portfolio"
+ssl_conn ="&ssl_ca=/home/gord/client-ssl/ca.pem&ssl_cert=/home/gord/client-ssl/client-cert.pem&ssl_key=/home/gord/client-ssl/client-key.pem&ssl_check_hostname=false"
+db_connection = f"mysql+pymysql://{dbUser}:{dbPass}@{dbHost}:{dbPort}/{dbName}?charset=utf8mb4{ssl_conn}"
 
-engine = create_engine(f"mysql+pymysql://{dbUser}:{dbPass}@{dbHost}:{dbPort}/{dbName}?charset=utf8mb4",pool_size=10, max_overflow=20)
+engine = create_engine(db_connection,connect_args={'connect_timeout':10})
+Session = sessionmaker(bind=engine)
+session = Session()
+                    #    connect_args={
+                    #        "ssl": {
+                    #            "ssl_ca":"/etc/ssl/cert.pem"
+                    #        }
+                    #    })
+                    #    pool_size=10, 
+                    #    max_overflow=20
 
 try:
     connection = engine.connect()
