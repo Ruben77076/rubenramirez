@@ -39,6 +39,7 @@ def contact():
         
         session.close()
         
+        
         return redirect(url_for('contact'))
     
     session = Session()

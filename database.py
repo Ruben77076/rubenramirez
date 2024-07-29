@@ -37,29 +37,12 @@ except Exception as e:
 try:
     def load_db_contacts():
         with engine.connect() as conx:
-            result = conx.execute(text("select * from contacts2"))
+            result = conx.execute(text("SELECT * FROM contacts2 ORDER BY id DESC"))
             contacts = []
             for row in result.all():
                 contacts.append(dict(row._mapping))
             return contacts    
-    # with engine.connect() as conx:
-    #     result = conx.execute(text("select * from contacts2"))
-        
-    #     result_dicts = []
-    #     for row in result.all():
-    #             result_dicts.append(dict(row._mapping))
-        
-    #     print(result_dicts)
-        # print("type(result):",type(result))
-        
-        # first_result = result.fetchone()
-        # if first_result:
-        #     print('type(first_result)',type(first_result))
-        #     first_resultDict = dict(first_result._mapping)
-        #     print("first_resultDict:",first_resultDict)
-        # else:
-        #     print("no records found")
-        
+
 except Exception as e:
     print(f"U got an Error: {e}")
     
