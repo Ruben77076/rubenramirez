@@ -6,9 +6,15 @@ from sqlalchemy import Column, Integer, LargeBinary, String, text
 from werkzeug.utils import secure_filename
 import spacy   
 import textstat
-app = Flask(__name__)
-nlp = spacy.load("en_core_web_sm")
 
+app = Flask(__name__)
+
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    from spacy.cli import download
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 class Contact(Base):
     __tablename__ = 'contacts2'
