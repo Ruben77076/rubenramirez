@@ -6,5 +6,6 @@ PyMySQL
 python-dotenv
 SQLAlchemy
 spacy
+spacy download en_core_web_sm
 textstat
 
