@@ -5,3 +5,6 @@ mysqlclient
 PyMySQL
 python-dotenv
 SQLAlchemy
+spacy
+textstat
+python -m spacy download en_core_web_sm
