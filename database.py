@@ -1,3 +1,4 @@
+import base64
 from sqlalchemy import create_engine,text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -39,8 +40,20 @@ try:
         with engine.connect() as conx:
             result = conx.execute(text("SELECT * FROM contacts2 ORDER BY id DESC"))
             contacts = []
-            for row in result.all():
-                contacts.append(dict(row._mapping))
+            for row in result:
+                contacts_dict = {
+                    "id": row.id,
+                    "name": row.name,
+                    "email":row.email,
+                    "message": row.message,
+                    "photo_name": row.photo_name,
+                    "photo": row.photo,
+                }
+                if contacts_dict['photo']:
+                    contacts_dict['photo'] = base64.b64encode(contacts_dict["photo"]).decode('utf-8')
+            # for row in result.all():
+            #     contacts_dict = (dict(row._mapping))
+                contacts.append(contacts_dict)
             return contacts    
 
 except Exception as e:

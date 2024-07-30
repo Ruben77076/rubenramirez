@@ -1,8 +1,12 @@
-from flask import Flask, jsonify, redirect, render_template, request,url_for
+from io import BytesIO
+import os
+from flask import Flask, Response, jsonify, redirect, render_template, request, send_file, url_for   
 from database import load_db_contacts, engine, Session, Base
-from sqlalchemy import Column, Integer, String, text
+from sqlalchemy import Column, Integer, LargeBinary, String, text
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
 
 class Contact(Base):
     __tablename__ = 'contacts2'
@@ -10,6 +14,8 @@ class Contact(Base):
     name = Column(String(120), nullable=False)
     email = Column(String(254), nullable=False)
     message = Column(String(250), nullable=False)
+    photo_name = Column(String(50))
+    photo = Column(LargeBinary)
     
 Base.metadata.create_all(engine)
 
@@ -29,10 +35,26 @@ def contact():
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
+        photo = request.files.get('photo')
+        
+        if photo:
+            photo_data = photo.read()
+            photo_name = photo.filename
+            mimetype = photo.mimetype
+        else:
+            photo_data = None
+            photo_name = None
+            mimetype = None
+              
+        #.read() if 'photo' in request.files else None
         
         session = Session()
         
-        new_contact = Contact(name=name, email=email, message=message)
+        # photo_data = None
+        # if photo:
+        #     photo_data = photo.read()
+        
+        new_contact = Contact(name=name, email=email, message=message, photo_name=photo_name,photo=photo_data)
         session.add(new_contact)
         
         session.commit()
@@ -48,10 +70,22 @@ def contact():
     
     return render_template('contactMe.html',contacts=contacts)
 
-# @app.route("/api/contacts")
-# def list_contacts():
-#     contacts = load_db_contacts()
-#     return jsonify(contacts)
+@app.route('/photo/<int:id>')
+def download(id):
+    session = Session()
+    contact = session.query(Contact).filter_by(id=id).first()
+    session.close()
+    picID = id
+    if contact and contact.photo:
+        download_name = contact.photo_name if contact.photo_name else "default.jpg"
+        return send_file(BytesIO(contact.photo),mimetype='image/jpeg',as_attachment=True, download_name=download_name)
+    else:
+        return 'Photo Not Found!',404
+    
+@app.route('/contactMe/api/contacts')
+def list_contacts():
+    contacts = load_db_contacts()
+    return jsonify(contacts)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
