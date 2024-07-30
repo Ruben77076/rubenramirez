@@ -1,11 +1,13 @@
 from io import BytesIO
 import os
-from flask import Flask, Response, jsonify, redirect, render_template, request, send_file, url_for   
+from flask import Flask, Response, jsonify, redirect, render_template, request, send_file, url_for
 from database import load_db_contacts, engine, Session, Base
 from sqlalchemy import Column, Integer, LargeBinary, String, text
 from werkzeug.utils import secure_filename
-
+import spacy   
+import textstat
 app = Flask(__name__)
+nlp = spacy.load("en_core_web_sm")
 
 
 class Contact(Base):
@@ -46,13 +48,7 @@ def contact():
             photo_name = None
             mimetype = None
               
-        #.read() if 'photo' in request.files else None
-        
         session = Session()
-        
-        # photo_data = None
-        # if photo:
-        #     photo_data = photo.read()
         
         new_contact = Contact(name=name, email=email, message=message, photo_name=photo_name,photo=photo_data)
         session.add(new_contact)
@@ -86,6 +82,17 @@ def download(id):
 def list_contacts():
     contacts = load_db_contacts()
     return jsonify(contacts)
+
+@app.route('/readability', methods=['GET','POST'])
+def readability():
+    text = ""
+    if request.method == 'POST':
+        text = request.form['text']
+        doc = nlp(text)
+        readability_score = textstat.flesch_reading_ease(text)
+        return render_template('readability.html', text=text, readability_score=readability_score)
+    return render_template('readability.html', text=text, readability_score=None) 
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
