@@ -88,3 +88,29 @@ form button {
     color: green;
     font-weight: bold;
 }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black; /* Change arrow color to black */
+}
+
+.carousel-control-prev-icon {
+    background-image: none; /* Remove the default icon */
+}
+
+.carousel-control-next-icon {
+    background-image: none; /* Remove the default icon */
+}
+
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+    content: '‹';
+    font-size: 55px;
+    color: black; /* Ensure the custom arrow is black */
+    display: inline-block;
+    opacity: 1;
+}
+
+.carousel-control-next-icon::after {
+    content: '›';
+}
