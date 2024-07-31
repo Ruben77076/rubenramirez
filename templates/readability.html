@@ -3,39 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Readability Index</title>
+    <title>📖Readability Index📖</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/read.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="background">
     <header>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About Me</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact Me</a></li>
-                <li><a href="{{ url_for('readability') }}">Readability</a></li>
+                <li><a href="{{ url_for('readability') }}">Readability Index</a></li>
             </ul>
         </nav>
     </header>
-
+    
     <main>
-        <h1>Readability Index</h1>
-        <form method="post">
-            <label for="text">Text:</label>
-            <textarea id="text" name="text" required>{{ text }}</textarea>
-            <button type="submit" class="btn btn-primary">Calculate Readability</button>
-        </form>
-        {% if readability_score is not none %}
-            <h2>Readability Score: {{ readability_score }}</h2>
+        <h3>📖Readability Index📖</h3><br>
+        {% if spacy_results is not none and basic_results is not none %}
+        <div class="results">
+            <div class="left">
+                <h4>Readability with SpaCy/textstat</h4>
+                <p>Flesch Reading Ease: <span class="spacy-results">{{ spacy_results }}</span></p>
+            </div>
+            <div class="right">
+                <h4>Ruben's Readability</h4>
+                <p>Flesch-Kincaid Inspired: <span class="basic-results">{{ basic_results[0] }}</span></p>
+                <p>Syllables #: {{ basic_results[1] }}</p>
+                <p>Words #: {{ basic_results[2] }}</p>
+                <p>Sentences # : {{ basic_results[3] }}</p>
+            </div>
+        </div>
+        <div id="readGraph">
+            <img src="static/readability-score.png" alt="Break down of readability per grade, collegiate and advanced levels">
+        </div>
         {% endif %}
+        <form method="post" action="{{ url_for('readability') }}">
+            <label for="text">Enter text:</label><br>
+            <textarea id="text" name="text" rows="12" cols="50">{{ text }}</textarea><br><br>
+            <button type="submit" class="btn btn-info">Analyze</button>
+        </form>
+
     </main>
     
     <footer>
         <p>&copy; 2024 RJ Business Enterprise, LLC</p>
     </footer>
+    <!--1st Editiong Readability  <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About Me</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Me</a></li>
+                    <li><a href="{{ url_for('readability') }}">Readability</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+        <main>
+            <h1>Readability Index</h1>
+            <form method="post">
+                <label for="text">Text:</label>
+                <textarea id="text" name="text" required>{{ text }}</textarea>
+                <button type="submit" class="btn btn-primary">Calculate Readability</button>
+            </form>
+            {% if readability_score is not none %}
+                <h2>Readability Score: {{ readability_score }}</h2>
+            {% endif %}
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 RJ Business Enterprise, LLC</p>
+        </footer>
+    </body>
+    </html>-->
 </body>
 </html>
+

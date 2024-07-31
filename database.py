@@ -39,6 +39,7 @@ try:
     def load_db_contacts():
         with engine.connect() as conx:
             result = conx.execute(text("SELECT * FROM contacts2 ORDER BY id DESC"))
+            print("fired DB query")
             contacts = []
             for row in result:
                 contacts_dict = {

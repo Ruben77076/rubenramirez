@@ -16,6 +16,57 @@ except OSError:
     download("en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
 
+
+def ruben_readability(text):
+    def count_syllables(word):
+        word = word.lower()
+        syllables = 0 
+        vowels = "aeiouy"
+        
+        if len(word) <= 3:
+            return 1
+        
+        if word[0] in vowels:
+            syllables += 1
+        
+        for index in range(1, len(word)):
+            if word[index] in vowels and word[index -1] not in vowels:
+                if not (index == len(word) - 1 and word[index] == 'e' and word[-2:] != 'le'):
+                    syllables += 1
+                
+        if word.endswith('es') or word.endswith('ed'):
+            syllables -= 1
+        if word.endswith('e') and not word.endswith('le'):
+            syllables -= 1
+        if word.endswith('le') and len(word) > 2 and word[-3] not in vowels:
+            syllables += 1
+        
+        return max(syllables, 1)
+    
+    #Sentence counter 
+    sentence_count = 0
+    sentence_end = '.!?;:'
+    for char in text:
+        if char in sentence_end:
+            sentence_count += 1
+    
+    #Word counter
+    words = text.split()
+    word_count = len(words)
+    
+    in_word = False
+    vowels = "aeiou"
+    
+    #Syllable counter
+    syllable_count = sum(count_syllables(word) for word in words)
+    
+    if sentence_count == 0 or word_count == 0:
+        return 0
+    
+    read_index_formula = 206.835 - 1.015 * (word_count / sentence_count) - 84.6 * (syllable_count / word_count)
+    read_index = format(read_index_formula, ".2f")
+    return read_index,syllable_count, word_count,sentence_count
+    
 class Contact(Base):
     __tablename__ = 'contacts2'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -91,16 +142,25 @@ def list_contacts():
 
 @app.route('/readability', methods=['GET','POST'])
 def readability():
+    spacy_results = None
+    ruben_results = None
     text = ""
+    
     if request.method == 'POST':
         text = request.form['text']
-        doc = nlp(text)
-        readability_score = textstat.flesch_reading_ease(text)
-        return render_template('readability.html', text=text, readability_score=readability_score)
-    return render_template('readability.html', text=text, readability_score=None) 
+        
+        if text:
+        #SpaCy/textstat readability
+            doc = nlp(text)
+            spacy_results = textstat.flesch_reading_ease(text)
+            
+            #Basic Ruben readability
+            ruben_results = ruben_readability(text)
+            
+        
+        return render_template('readability.html', text=text, spacy_results=spacy_results,basic_results=ruben_results)
+    return render_template('readability.html', text=text, spacy_results=None,basic_results=None) 
     
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
-# print(__name__)

@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     height: fit-content;
-    /* overflow-y : auto;  */
+        /* overflow-y : auto;  */
 
 }
 
@@ -30,9 +30,14 @@ nav ul li a {
     text-decoration: none;
 }
 
+.background {
+    background-color: #D5D5D3;
+}
+
 main {
     padding: 5px;
     text-align: center;
+    overflow-y: auto;
 }
 
 main img {
@@ -60,7 +65,20 @@ footer {
     padding: 10px 50px;
     font-size: 16px;
     font-weight: bold;
-    color: #F48A3E;
+    color: cadetblue;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+/* Hover effect */
+#downloadResumeBtn:hover {
+    background-color: #C09A6B; /* Darker blue background on hover */
+}
+
+/* Active state (pressed button) */
+#downloadResumeBtn:active {
+    background-color: #C09A6B; /* Darker blue background */
+    box-shadow: 0 5px #666; /* Darker shadow to create depth */
+    transform: translateY(4px); /* Slightly move down to create pressed effect */
 }
 
 form {
@@ -100,16 +118,22 @@ form button {
 .carousel-control-next-icon {
     background-image: none; /* Remove the default icon */
 }
-
+/*
 .carousel-control-prev-icon::after,
 .carousel-control-next-icon::after {
     content: '‹';
     font-size: 55px;
-    color: black; /* Ensure the custom arrow is black */
+    color: cyan; /* Ensure the custom arrow is black 
     display: inline-block;
     opacity: 1;
 }
+*/
+
 
 .carousel-control-next-icon::after {
     content: '›';
+}
+
+#readGraph {
+    border: 1px solid grey;
 }
