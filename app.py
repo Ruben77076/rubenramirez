@@ -66,6 +66,14 @@ def ruben_readability(text):
     read_index_formula = 206.835 - 1.015 * (word_count / sentence_count) - 84.6 * (syllable_count / word_count)
     read_index = format(read_index_formula, ".2f")
     return read_index,syllable_count, word_count,sentence_count
+
+def grade_level(text):
+    read_stats = ruben_readability(text)
+    
+    grade_formula = 0.39 * (read_stats[2] / read_stats[3]) + 11.8 * (read_stats[1] / read_stats[2]) - 15.59
+    grade = round(grade_formula)
+    
+    return grade
     
 class Contact(Base):
     __tablename__ = 'contacts2'
@@ -157,9 +165,13 @@ def readability():
             #Basic Ruben readability
             ruben_results = ruben_readability(text)
             
+            #Grade Equivalent
+            grade_result = grade_level(text)
+            
+            
         
-        return render_template('readability.html', text=text, spacy_results=spacy_results,basic_results=ruben_results)
-    return render_template('readability.html', text=text, spacy_results=None,basic_results=None) 
+        return render_template('readability.html', text=text, spacy_results=spacy_results,ruben_results=ruben_results,grade_result=grade_result)
+    return render_template('readability.html', text=text, spacy_results=None,basic_results=None,grade_result=None) 
     
 
 if __name__ == '__main__':
