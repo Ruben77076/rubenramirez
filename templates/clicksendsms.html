@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClickSend SMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About Me</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact Me</a></li>
+                <li><a href="{{ url_for('clicksend') }}">SMS</a></li>
+                <li><a href="{{ url_for('readability') }}">Readability Index</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>ClickSend SMS</h1>
+        <form action="{{ url_for('clicksend') }}" method="POST">
+            <label for="recipient">Recipient Phone Number:</label>
+            <input type="text" id="recipient" name="recipient" required>
+            <br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <br>
+            <button type="submit" class="btn btn-success">Send SMS</button>
+        </form>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </main>
+    <footer>
+        <p>&copy; 2024 RJ Business Enterprise, LLC</p>
+    </footer>
+</body>
+</html>

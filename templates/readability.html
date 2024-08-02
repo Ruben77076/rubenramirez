@@ -18,6 +18,7 @@
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About Me</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact Me</a></li>
+                <li><a href="{{ url_for('clicksend') }}">SMS</a></li>
                 <li><a href="{{ url_for('readability') }}">Readability Index</a></li>
             </ul>
         </nav>
@@ -43,7 +44,7 @@
         </div>
         {% endif %}
         <form method="post" action="{{ url_for('readability') }}">
-            <label for="text">Enter text:</label><br>
+            <label for="text">Paste text here to be analyzed:</label><br>
             <textarea id="text" name="text" rows="12" cols="50">{{ text }}</textarea><br><br>
             <button type="submit" class="btn btn-info">Analyze</button>
         </form>

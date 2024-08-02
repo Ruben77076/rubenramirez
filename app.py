@@ -1,13 +1,24 @@
+from http import client
 from io import BytesIO
 import os
-from flask import Flask, Response, jsonify, redirect, render_template, request, send_file, url_for
+from urllib import response
+from flask import Flask, Response, flash, jsonify, redirect, render_template, request, send_file, url_for
+import requests
 from database import load_db_contacts, engine, Session, Base
+from sms_twil import twilioSID, twilioTOKEN, twilioNUMBER, client
 from sqlalchemy import Column, Integer, LargeBinary, String, text
-from werkzeug.utils import secure_filename
 import spacy   
 import textstat
+import clicksend_client
+from clicksend_client import SmsMessage
+from clicksend_client.api import ApiException
+   
+#from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(24).hex()
+
 
 try:
     nlp = spacy.load("en_core_web_sm")
@@ -15,7 +26,8 @@ except OSError:
     from spacy.cli import download
     download("en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
-
+    
+twilioNUMBER = twilioNUMBER
 
 def ruben_readability(text):
     def count_syllables(word):
@@ -147,6 +159,65 @@ def download(id):
 def list_contacts():
     contacts = load_db_contacts()
     return jsonify(contacts)
+
+""" Setup 4 Twilio @app.route('/sms_chat', methods=['GET','POST'])
+def sms_chat():
+    
+    if request.method == 'POST':
+        to_number = request.form['to_number']
+        message_body = request.form['message_body']
+
+        try:
+            message = client.messages.create(
+                body=message_body,
+                from_="+15005550006",
+                to="+15005550009"
+                
+            )
+            flash('Message sent successfully!', 'success')
+            
+        except Exception as e:
+            flash(f'Failed to send message: {str(e)}', 'danger')
+            print(e)
+                
+
+        return redirect(url_for('sms_chat'))
+
+    return render_template('sms.html')"""
+
+"""Setup 4 Clicksend @app.route('/clicksend', methods=['GET','POST'])
+def clicksend():
+    
+     configuration = clicksend_client.Configuration()
+     configuration.username = 'CLICKSEND_USER'
+     configuration.password = 'CLICKSEND_API_KEY'
+    
+     if request.method == 'POST':
+        recipient = request.form.get('recipient')
+        message = request.form.get('message')
+
+        if not message or not recipient:
+            return 'Message and recipient are required', 400
+
+        api_instance = clicksend_client.SMSApi(clicksend_client.ApiClient(configuration))
+
+        # Configure your message
+        sms_message = SmsMessage(
+            source="python",  
+            body={message}, # Write your message here
+            to={recipient} # Enter the number you are sending to
+        )
+
+        sms_messages = clicksend_client.SmsMessageCollection(messages=[sms_message])
+
+        try:
+            # Send an SMS message(s)
+            api_response = api_instance.sms_send_post(sms_messages)
+            print(api_response)
+        except ApiException as e:
+            print("Exception when calling SMSApi->sms_send_post: %s\n" % e)
+        return response.json()
+     return render_template('clicksendsms.html')"""
 
 @app.route('/readability', methods=['GET','POST'])
 def readability():
