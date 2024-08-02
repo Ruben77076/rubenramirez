@@ -5,13 +5,10 @@ from urllib import response
 from flask import Flask, Response, flash, jsonify, redirect, render_template, request, send_file, url_for
 import requests
 from database import load_db_contacts, engine, Session, Base
-from sms_twil import twilioSID, twilioTOKEN, twilioNUMBER, client
 from sqlalchemy import Column, Integer, LargeBinary, String, text
 import spacy   
 import textstat
-import clicksend_client
-from clicksend_client import SmsMessage
-from clicksend_client.api import ApiException
+
    
 #from werkzeug.utils import secure_filename
 
@@ -27,7 +24,7 @@ except OSError:
     download("en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
     
-twilioNUMBER = twilioNUMBER
+
 
 def ruben_readability(text):
     def count_syllables(word):
@@ -159,6 +156,18 @@ def download(id):
 def list_contacts():
     contacts = load_db_contacts()
     return jsonify(contacts)
+
+# @app.route('/gmail_sms', methods=['GET','POST'])
+# def gmailSend():
+#      if request.method == 'POST':
+#         phone = request.form['phone']
+#         message = request.form['message']
+        
+#         try:
+#             send_sms_via_gmail(phone, message)
+#             flash('SMS sent successfully!', 'success')
+#         except Exception as e:
+#             flash(f'Failed to send SMS: {str(e)}', 'danger')
 
 """ Setup 4 Twilio @app.route('/sms_chat', methods=['GET','POST'])
 def sms_chat():
